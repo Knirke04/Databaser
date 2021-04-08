@@ -1,0 +1,4 @@
+GO
+INSERT #UnordCoronaTest (TestID, TestFileName, TestTimeStamp, FK_UnordID, TestContent, TestDate, TestTime)
+VALUES ('', 'Testsvar.jpg', '', 1234, 1, '2021-04-08', '13:00'),
+('', 'Testsvar.jpg', GETDATE(), 1212, 1, '2021-04-08', '13:10');

@@ -26,11 +26,15 @@ CREATE TABLE #UnordCity(
 DROP TABLE IF EXISTS #UnordCoronaTest;
 
 CREATE TABLE #UnordCoronaTest(
-    TestID INT NOT NULL IDENTITY PRIMARY KEY,
+    TestID INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     TestFileName VARCHAR(30) NOT NULL,
     TestTimeStamp TIMESTAMP NOT NULL,
     FK_UnordID INT NOT NULL, 
-    TestConsent BIT NOT NULL, 
+    TestContent BIT NOT NULL, 
     TestDate DATE NOT NULL, 
     TestTime TIME NOT NULL
 );
+GO
+INSERT #UnordCoronaTest (TestID, TestFileName, TestTimeStamp, FK_UnordID, TestContent, TestDate, TestTime)
+VALUES ('', 'Testsvar.jpg', '', 1234, 1, '2021-04-08', '13:00'),
+('', 'Testsvar.jpg', GETDATE(), 1212, 1, '2021-04-08', '13:10');
