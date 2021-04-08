@@ -15,3 +15,22 @@ CREATE TABLE #UnordEmplyees(
    Mobile INT NOT NULL,
    EmailWork VARCHAR(50) NOT NULL
 );
+
+DROP TABLE IF EXISTS #UnordCity;
+
+CREATE TABLE #UnordCity(
+    PostalCode INT NOT NULL IDENTITY PRIMARY KEY,
+    City VARCHAR(30) NOT NULL
+);
+
+DROP TABLE IF EXISTS #UnordCoronaTest;
+
+CREATE TABLE #UnordCoronaTest(
+    TestID INT NOT NULL IDENTITY PRIMARY KEY,
+    TestFileName VARCHAR(30) NOT NULL,
+    TestTimeStamp TIMESTAMP NOT NULL,
+    FK_UnordID INT NOT NULL, 
+    TestConsent BIT NOT NULL, 
+    TestDate DATE NOT NULL, 
+    TestTime TIME NOT NULL
+);
