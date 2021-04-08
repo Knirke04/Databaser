@@ -47,3 +47,5 @@ VALUES ('Testsvar.jpg', DEFAULT, 1234, 1, '2021-03-08', '13:00'),
     ('Testsvar9.jpg', DEFAULT, 34, 1, '2021-03-17', '13:00'),
     ('Testsvar10.jpg', DEFAULT, 956, 1, '2021-02-28', '13:00'),
     ('Testsvar11.jpg', DEFAULT, 237, 1, '2021-03-11', '13:00');
+
+    SELECT * FROM #UnordCoronaTest;
