@@ -36,6 +36,6 @@ CREATE TABLE #UnordCoronaTest(
 );
 GO
 INSERT #UnordCoronaTest (TestFileName, TestTimeStamp, FK_UnordID, TestContent, TestDate, TestTime)
-VALUES ('Testsvar.jpg', CURRENT_TIMESTAMP, 1234, 1, '2021-03-08', '13:00');
+VALUES ('Testsvar.jpg', DEFAULT, 1234, 1, '2021-03-08', '13:00');
 
     SELECT * FROM #UnordCoronaTest;
