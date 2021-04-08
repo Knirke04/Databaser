@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS #UnordEmplyees;
+
+CREATE TABLE #UnordEmplyees(
+   UnordID INT NOT NULL IDENTITY PRIMARY KEY,
+   Cpr INT NOT NULL,
+   FirstName VARCHAR(20) NOT NULL,
+   MiddleName VARCHAR(40) NOT NULL,
+   LastName VARCHAR(30) NOT NULL,
+   RoadName VARCHAR(40) NOT NULL,
+   RoadNumber VARCHAR(4) NOT NULL,
+   RoadLetter VARCHAR(1),
+   RoadFloor VARCHAR(2),
+   RoadFloorLR VARCHAR(2),
+   FK_PostalCode INT NOT NULL,
+   Mobile INT NOT NULL,
+   EmailWork VARCHAR(50) NOT NULL
+);
