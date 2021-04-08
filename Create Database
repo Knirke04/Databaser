@@ -36,16 +36,6 @@ CREATE TABLE #UnordCoronaTest(
 );
 GO
 INSERT #UnordCoronaTest (TestFileName, TestTimeStamp, FK_UnordID, TestContent, TestDate, TestTime)
-VALUES ('Testsvar.jpg', DEFAULT, 1234, 1, '2021-03-08', '13:00'),
-    ('Testsvar2.jpg', DEFAULT, 1212, 1, '2021-04-10', '13:10'),
-    ('Testsvar3.jpg', DEFAULT, 234, 1, '2021-02-22', '13:00'),
-    ('Testsvar4.jpg', DEFAULT, 12, 1, '2021-01-01', '13:00'),
-    ('Testsvar5.jpg', DEFAULT, 567, 1, '2021-03-24', '13:00'),
-    ('Testsvar6.jpg', DEFAULT, 788, 1, '2021-02-12', '13:00'),
-    ('Testsvar7.jpg', DEFAULT, 1291, 1, '2021-01-15', '13:00'),
-    ('Testsvar8.jpg', DEFAULT, 1034, 1, '2021-04-04', '13:00'),
-    ('Testsvar9.jpg', DEFAULT, 34, 1, '2021-03-17', '13:00'),
-    ('Testsvar10.jpg', DEFAULT, 956, 1, '2021-02-28', '13:00'),
-    ('Testsvar11.jpg', DEFAULT, 237, 1, '2021-03-11', '13:00');
+VALUES ('Testsvar.jpg', CURRENT_TIMESTAMP, 1234, 1, '2021-03-08', '13:00');
 
     SELECT * FROM #UnordCoronaTest;
