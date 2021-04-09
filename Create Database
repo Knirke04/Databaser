@@ -3,7 +3,7 @@ USE unord;
 DROP TABLE IF EXISTS UnordEmplyees;
 
 CREATE TABLE UnordEmplyees(
-   UnordID INT NOT NULL IDENTITY PRIMARY KEY,
+   UnordID INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
    Cpr INT NOT NULL,
    FirstName VARCHAR(20) NOT NULL,
    MiddleName VARCHAR(40) NOT NULL,
@@ -50,34 +50,31 @@ VALUES ('Testsvar.jpg', GETDATE(), 123, 1, '2021-03-08', '13:00'),
 ('Testsvar9.jpg', GETDATE(), 518, 1, '2021-01-04', '13:00'),
 ('Testsvar10.jpg', GETDATE(), 23, 1, '2021-02-22', '13:00');
 
-    SELECT * FROM UnordCoronaTest;
+    
 
     DELETE FROM UnordCoronaTest WHERE TestDate <= DATEADD(day,-30, GETDATE());
 
     SELECT * FROM UnordCoronaTest;
 
-    -- Create a new stored procedure called 'StoredProcedureName' in schema 'dbo'
-    -- Drop the stored procedure if it already exists
-    IF EXISTS (
-    SELECT *
-        FROM INFORMATION_SCHEMA.ROUTINES
-    WHERE SPECIFIC_SCHEMA = N'dbo'
-        AND SPECIFIC_NAME = N'StoredProcedureName'
-        AND ROUTINE_TYPE = N'PROCEDURE'
-    )
-    DROP PROCEDURE dbo.StoredProcedureName
-    GO
-    -- Create the stored procedure in the specified schema
-    CREATE PROCEDURE dbo.StoredProcedureName
-        @param1 /*parameter name*/ int /*datatype_for_param1*/ = 0, /*default_value_for_param1*/
-        @param2 /*parameter name*/ int /*datatype_for_param1*/ = 0 /*default_value_for_param2*/
-    -- add more stored procedure parameters here
-    AS
-    BEGIN
-        -- body of the stored procedure
-        SELECT @param1, @param2
-    END
-    GO
-    -- example to execute the stored procedure we just created
-    EXECUTE dbo.StoredProcedureName 1 /*value_for_param1*/, 2 /*value_for_param2*/
-    GO
+   -- Create a new stored procedure called 'stp_GetAllCoronaTests' in schema 'unord'
+   -- Drop the stored procedure if it already exists
+   IF EXISTS (
+   SELECT *
+       FROM INFORMATION_SCHEMA.ROUTINES
+   WHERE SPECIFIC_SCHEMA = N'unord'
+       AND SPECIFIC_NAME = N'stp_GetAllCoronaTests'
+       AND ROUTINE_TYPE = N'PROCEDURE'
+   )
+   DROP PROCEDURE UnordCoronaTest.stp_GetAllCoronaTests
+   GO
+   -- Create the stored procedure in the specified schema
+   CREATE PROCEDURE unord.stp_GetAllCoronaTests
+       
+   AS
+   BEGIN
+      SELECT * FROM UnordCoronaTest;
+   END
+   GO
+   -- example to execute the stored procedure we just created
+   EXECUTE unord.stp_GetAllCoronaTests 1 /*value_for_param1*/, 2 /*value_for_param2*/
+   GO
