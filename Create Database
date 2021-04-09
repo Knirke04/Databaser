@@ -37,14 +37,19 @@ CREATE TABLE #UnordCoronaTest(
 GO
 INSERT #UnordCoronaTest (TestFileName, TestTimeStamp, FK_UnordID, TestContent, TestDate, TestTime)
 VALUES ('Testsvar.jpg', GETDATE(), 123, 1, '2021-03-08', '13:00'),
-('Testsvar2.jpg', GETDATE(), 645, 1, '2021-03-08', '13:00'),
-('Testsvar3.jpg', GETDATE(), 134, 1, '2021-03-08', '13:00'),
-('Testsvar4.jpg', GETDATE(), 234, 1, '2021-03-08', '13:00'),
-('Testsvar5.jpg', GETDATE(), 12, 1, '2021-03-08', '13:00'),
-('Testsvar6.jpg', GETDATE(), 177, 1, '2021-03-08', '13:00'),
-('Testsvar7.jpg', GETDATE(), 295, 1, '2021-03-08', '13:00'),
-('Testsvar8.jpg', GETDATE(), 322, 1, '2021-03-08', '13:00'),
-('Testsvar9.jpg', GETDATE(), 518, 1, '2021-03-08', '13:00'),
-('Testsvar10.jpg', GETDATE(), 23, 1, '2021-03-08', '13:00');
+('Testsvar2.jpg', GETDATE(), 645, 1, '2021-03-02', '13:00'),
+('Testsvar3.jpg', GETDATE(), 134, 1, '2021-01-08', '13:00'),
+('Testsvar4.jpg', GETDATE(), 234, 1, '2021-02-18', '13:00'),
+('Testsvar5.jpg', GETDATE(), 12, 1, '2021-01-24', '13:00'),
+('Testsvar6.jpg', GETDATE(), 177, 1, '2021-04-02', '13:00'),
+('Testsvar7.jpg', GETDATE(), 295, 1, '2021-03-15', '13:00'),
+('Testsvar8.jpg', GETDATE(), 322, 1, '2021-02-28', '13:00'),
+('Testsvar9.jpg', GETDATE(), 518, 1, '2021-01-04', '13:00'),
+('Testsvar10.jpg', GETDATE(), 23, 1, '2021-02-22', '13:00');
 
     SELECT * FROM #UnordCoronaTest;
+
+    DELETE FROM #UnordCoronaTest WHERE TestDate <='2021-03-09';
+
+    SELECT * FROM #UnordCoronaTest;
+
