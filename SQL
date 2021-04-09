@@ -1,6 +1,0 @@
-<<<<<<< HEAD
-SELECT CustomerID, SalesOrderID FROM Sales.SalesOrderHeader;
-=======
-SELECT * FROM ...
-Virker det denne vej?
->>>>>>> 5fb8cc2bce46354566fae30a2f978616ab293a47
