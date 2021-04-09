@@ -1,6 +1,8 @@
-DROP TABLE IF EXISTS #UnordEmplyees;
+USE unord;
 
-CREATE TABLE #UnordEmplyees(
+DROP TABLE IF EXISTS UnordEmplyees;
+
+CREATE TABLE UnordEmplyees(
    UnordID INT NOT NULL IDENTITY PRIMARY KEY,
    Cpr INT NOT NULL,
    FirstName VARCHAR(20) NOT NULL,
@@ -13,29 +15,30 @@ CREATE TABLE #UnordEmplyees(
    RoadFloorLR VARCHAR(2),
    FK_PostalCode INT NOT NULL,
    Mobile INT NOT NULL,
-   EmailWork VARCHAR(50) NOT NULL
+   EmailWork VARCHAR(50) NOT NULL UNIQUE, 
+   PasswordWork VARCHAR(64) NOT NULL
 );
 
-DROP TABLE IF EXISTS #UnordCity;
+DROP TABLE IF EXISTS UnordCity;
 
-CREATE TABLE #UnordCity(
+CREATE TABLE UnordCity(
     PostalCode INT NOT NULL IDENTITY PRIMARY KEY,
     City VARCHAR(30) NOT NULL
 );
 
-DROP TABLE IF EXISTS #UnordCoronaTest;
+DROP TABLE IF EXISTS UnordCoronaTest;
 
-CREATE TABLE #UnordCoronaTest(
+CREATE TABLE UnordCoronaTest(
     TestID INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     TestFileName VARCHAR(30) NOT NULL,
     TestTimeStamp DATETIME DEFAULT(GETDATE()) NOT NULL,
     FK_UnordID INT NOT NULL, 
-    TestContent BIT NOT NULL, 
+    TestConsent BIT NOT NULL, 
     TestDate DATE NOT NULL, 
     TestTime TIME NOT NULL
 );
 GO
-INSERT #UnordCoronaTest (TestFileName, TestTimeStamp, FK_UnordID, TestContent, TestDate, TestTime)
+INSERT UnordCoronaTest (TestFileName, TestTimeStamp, FK_UnordID, TestConsent, TestDate, TestTime)
 VALUES ('Testsvar.jpg', GETDATE(), 123, 1, '2021-03-08', '13:00'),
 ('Testsvar2.jpg', GETDATE(), 645, 1, '2021-03-02', '13:00'),
 ('Testsvar3.jpg', GETDATE(), 134, 1, '2021-01-08', '13:00'),
@@ -47,9 +50,34 @@ VALUES ('Testsvar.jpg', GETDATE(), 123, 1, '2021-03-08', '13:00'),
 ('Testsvar9.jpg', GETDATE(), 518, 1, '2021-01-04', '13:00'),
 ('Testsvar10.jpg', GETDATE(), 23, 1, '2021-02-22', '13:00');
 
-    SELECT * FROM #UnordCoronaTest;
+    SELECT * FROM UnordCoronaTest;
 
-    DELETE FROM #UnordCoronaTest WHERE TestDate <='2021-03-09';
+    DELETE FROM UnordCoronaTest WHERE TestDate <= DATEADD(day,-30, GETDATE());
 
-    SELECT * FROM #UnordCoronaTest;
+    SELECT * FROM UnordCoronaTest;
 
+    -- Create a new stored procedure called 'StoredProcedureName' in schema 'dbo'
+    -- Drop the stored procedure if it already exists
+    IF EXISTS (
+    SELECT *
+        FROM INFORMATION_SCHEMA.ROUTINES
+    WHERE SPECIFIC_SCHEMA = N'dbo'
+        AND SPECIFIC_NAME = N'StoredProcedureName'
+        AND ROUTINE_TYPE = N'PROCEDURE'
+    )
+    DROP PROCEDURE dbo.StoredProcedureName
+    GO
+    -- Create the stored procedure in the specified schema
+    CREATE PROCEDURE dbo.StoredProcedureName
+        @param1 /*parameter name*/ int /*datatype_for_param1*/ = 0, /*default_value_for_param1*/
+        @param2 /*parameter name*/ int /*datatype_for_param1*/ = 0 /*default_value_for_param2*/
+    -- add more stored procedure parameters here
+    AS
+    BEGIN
+        -- body of the stored procedure
+        SELECT @param1, @param2
+    END
+    GO
+    -- example to execute the stored procedure we just created
+    EXECUTE dbo.StoredProcedureName 1 /*value_for_param1*/, 2 /*value_for_param2*/
+    GO
