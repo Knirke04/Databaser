@@ -26,6 +26,7 @@ VALUES (1705752348, 'Tania', 'Linn Ottesen', 'Nielsen', 'Rosengårdsvej', 9, NUL
 (0303791414, 'Janne', 'Walmod', 'Hansen', 'Mågegade', 27, 'C', NULL, NULL, 4050, 55876633, 'jaan@unord.dk', 'HikkeDrikke22');
 
 SELECT * FROM UnordEmployees;
+--Dette er bare en test SELECT for at se om INSERT virker. Derfor bruges * selvom det ikke er best practice!
 
 -------------------------------------------------------------
 
@@ -43,6 +44,7 @@ VALUES (3600, 'Frederikssund'),
 (4050, 'Skibby');
 
 SELECT * FROM UnordCity;
+--Dette er bare en test SELECT for at se om INSERT virker. Derfor bruges * selvom det ikke er best practice!
 
 -------------------------------------------------------------
 
@@ -58,7 +60,7 @@ CREATE TABLE UnordCoronaTest(
     TestDate DATE NOT NULL, 
     TestTime TIME NOT NULL
 );
-GO
+
 INSERT UnordCoronaTest (TestFileName, TestTimeStamp, FK_UnordID, TestConsent, TestDate, TestTime)
 VALUES ('Testsvar.jpg', GETDATE(), 1, 1, '2021-03-08', '13:00'),
 ('Testsvar2.jpg', GETDATE(), 2, 1, '2021-03-02', '13:00'),
@@ -126,7 +128,7 @@ VALUES ('Testsvar.jpg', GETDATE(), 1, 1, '2021-03-08', '13:00'),
    GO
 
    --------------------------------------------------------------------------------
-    
+
 
     EXECUTE dbo.stp_GetAllCoronaTestAnswers 
     GO
