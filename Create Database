@@ -1,15 +1,15 @@
 USE unord;
 
-DROP TABLE IF EXISTS UnordEmplyees;
+DROP TABLE IF EXISTS UnordEmployees;
 
-CREATE TABLE UnordEmplyees(
+CREATE TABLE UnordEmployees(
    UnordID INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
    Cpr INT NOT NULL,
    FirstName VARCHAR(20) NOT NULL,
-   MiddleName VARCHAR(40) NOT NULL,
+   MiddleName VARCHAR(40),
    LastName VARCHAR(30) NOT NULL,
    RoadName VARCHAR(40) NOT NULL,
-   RoadNumber VARCHAR(4) NOT NULL,
+   RoadNumber INT NOT NULL,
    RoadLetter VARCHAR(1),
    RoadFloor VARCHAR(2),
    RoadFloorLR VARCHAR(2),
@@ -19,12 +19,33 @@ CREATE TABLE UnordEmplyees(
    PasswordWork VARCHAR(64) NOT NULL
 );
 
+INSERT UnordEmployees (Cpr, FirstName, MiddleName, LastName, RoadName, RoadNumber, RoadLetter, RoadFloor, RoadFloorLR, FK_PostalCode, Mobile, EmailWork, PasswordWork)
+VALUES (1705752348, 'Tania', 'Linn Ottesen', 'Nielsen', 'Rosengårdsvej', 9, NULL, NULL, NULL, 3630, 22679972, 'tani@unord.dk', 'HikkeDrikke26'),
+(1208712349, 'Morten', NULL, 'Hansen', 'Vibevej', 5, 'A', NULL, NULL, 3630, 23561212, 'moha@unord.dk', 'HikkeDrikke25'),
+(1304804769, 'Mikkel', NULL, 'Hansen', 'Ødegårdvej', 11, NULL, NULL, NULL, 3600, 77991212, 'miha@unord.dk', 'HikkeDrikke21'),
+(0303791414, 'Janne', 'Walmod', 'Hansen', 'Mågegade', 27, 'C', NULL, NULL, 4050, 55876633, 'jaan@unord.dk', 'HikkeDrikke22');
+
+SELECT * FROM UnordEmployees;
+
+-------------------------------------------------------------
+
+
 DROP TABLE IF EXISTS UnordCity;
 
 CREATE TABLE UnordCity(
-    PostalCode INT NOT NULL IDENTITY PRIMARY KEY,
+    PostalCode INT NOT NULL PRIMARY KEY,
     City VARCHAR(30) NOT NULL
 );
+
+INSERT UnordCity (PostalCode, City)
+VALUES (3600, 'Frederikssund'),
+(3630, 'Jægerspris'),
+(4050, 'Skibby');
+
+SELECT * FROM UnordCity;
+
+-------------------------------------------------------------
+
 
 DROP TABLE IF EXISTS UnordCoronaTest;
 
@@ -39,42 +60,74 @@ CREATE TABLE UnordCoronaTest(
 );
 GO
 INSERT UnordCoronaTest (TestFileName, TestTimeStamp, FK_UnordID, TestConsent, TestDate, TestTime)
-VALUES ('Testsvar.jpg', GETDATE(), 123, 1, '2021-03-08', '13:00'),
-('Testsvar2.jpg', GETDATE(), 645, 1, '2021-03-02', '13:00'),
-('Testsvar3.jpg', GETDATE(), 134, 1, '2021-01-08', '13:00'),
-('Testsvar4.jpg', GETDATE(), 234, 1, '2021-02-18', '13:00'),
-('Testsvar5.jpg', GETDATE(), 12, 1, '2021-01-24', '13:00'),
-('Testsvar6.jpg', GETDATE(), 177, 1, '2021-04-02', '13:00'),
-('Testsvar7.jpg', GETDATE(), 295, 1, '2021-03-15', '13:00'),
-('Testsvar8.jpg', GETDATE(), 322, 1, '2021-02-28', '13:00'),
-('Testsvar9.jpg', GETDATE(), 518, 1, '2021-01-04', '13:00'),
-('Testsvar10.jpg', GETDATE(), 23, 1, '2021-02-22', '13:00');
+VALUES ('Testsvar.jpg', GETDATE(), 1, 1, '2021-03-08', '13:00'),
+('Testsvar2.jpg', GETDATE(), 2, 1, '2021-03-02', '13:00'),
+('Testsvar3.jpg', GETDATE(), 3, 1, '2021-01-08', '13:00'),
+('Testsvar4.jpg', GETDATE(), 4, 1, '2021-02-18', '13:00'),
+('Testsvar5.jpg', GETDATE(), 1, 1, '2021-01-24', '13:00'),
+('Testsvar6.jpg', GETDATE(), 2, 1, '2021-04-02', '13:00'),
+('Testsvar7.jpg', GETDATE(), 1, 1, '2021-03-15', '13:00'),
+('Testsvar8.jpg', GETDATE(), 3, 1, '2021-02-28', '13:00'),
+('Testsvar9.jpg', GETDATE(), 4, 1, '2021-01-04', '13:00'),
+('Testsvar10.jpg', GETDATE(), 1, 1, '2021-02-22', '13:00');
 
+------------------------------------------------------------------------
     
+    -- Create a new stored procedure called 'stp_GetAllCoronaTestAnswers' in schema 'dbo'
+    -- Drop the stored procedure if it already exists
+    IF EXISTS (
+    SELECT *
+        FROM INFORMATION_SCHEMA.ROUTINES
+    WHERE SPECIFIC_SCHEMA = N'dbo'
+        AND SPECIFIC_NAME = N'stp_GetAllCoronaTestAnswers'
+        AND ROUTINE_TYPE = N'PROCEDURE'
+    )
+    DROP PROCEDURE dbo.stp_GetAllCoronaTestAnswers
+    GO
+    -- Create the stored procedure in the specified schema
+    CREATE PROCEDURE dbo.stp_GetAllCoronaTestAnswers
+    AS
+    BEGIN
+       SELECT TestDate, TestTime, FirstName, MiddleName, LastName, City, TestFileName 
+       FROM UnordCoronaTest 
+       INNER JOIN UnordEmployees ON UnordCoronaTest.FK_UnordID = UnordEmployees.UnordID
+       INNER JOIN UnordCity ON UnordCity.PostalCode = UnordEmployees.FK_PostalCode 
+       ORDER BY TestDate, TestTime;
+    END
+    GO
+    -- example to execute the stored procedure we just created
+    EXECUTE dbo.stp_GetAllCoronaTestAnswers
+    GO
 
-    DELETE FROM UnordCoronaTest WHERE TestDate <= DATEADD(day,-30, GETDATE());
+   ------------------------------------------------------------------------
 
-    SELECT * FROM UnordCoronaTest;
-
-   -- Create a new stored procedure called 'stp_GetAllCoronaTests' in schema 'unord'
+   
+   -- Create a new stored procedure called 'stp_DeleteCoronaTests' in schema 'dbo'
    -- Drop the stored procedure if it already exists
    IF EXISTS (
    SELECT *
        FROM INFORMATION_SCHEMA.ROUTINES
-   WHERE SPECIFIC_SCHEMA = N'unord'
-       AND SPECIFIC_NAME = N'stp_GetAllCoronaTests'
+   WHERE SPECIFIC_SCHEMA = N'dbo'
+       AND SPECIFIC_NAME = N'stp_DeleteCoronaTests'
        AND ROUTINE_TYPE = N'PROCEDURE'
    )
-   DROP PROCEDURE UnordCoronaTest.stp_GetAllCoronaTests
+   DROP PROCEDURE dbo.stp_DeleteCoronaTests
    GO
    -- Create the stored procedure in the specified schema
-   CREATE PROCEDURE unord.stp_GetAllCoronaTests
-       
+   CREATE PROCEDURE dbo.stp_DeleteCoronaTests
    AS
    BEGIN
-      SELECT * FROM UnordCoronaTest;
+        
+      DELETE FROM UnordCoronaTest WHERE TestDate <= DATEADD(day,-30, GETDATE());
    END
    GO
    -- example to execute the stored procedure we just created
-   EXECUTE unord.stp_GetAllCoronaTests 1 /*value_for_param1*/, 2 /*value_for_param2*/
+   EXECUTE dbo.stp_DeleteCoronaTests
    GO
+
+   --------------------------------------------------------------------------------
+    
+
+    EXECUTE dbo.stp_GetAllCoronaTestAnswers 
+    GO
+ 
