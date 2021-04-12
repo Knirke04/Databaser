@@ -73,6 +73,36 @@ VALUES ('Testsvar.jpg', GETDATE(), 1, 1, '2021-03-08', '13:00'),
 ('Testsvar9.jpg', GETDATE(), 4, 1, '2021-01-04', '15:44'),
 ('Testsvar10.jpg', GETDATE(), 1, 1, '2021-02-28', '09:18');
 
+-- Create a new stored procedure called 'stp_InsertCoronaTestAnswer' in schema 'dbo'
+-- Drop the stored procedure if it already exists
+IF EXISTS (
+SELECT *
+    FROM INFORMATION_SCHEMA.ROUTINES
+WHERE SPECIFIC_SCHEMA = N'dbo'
+    AND SPECIFIC_NAME = N'stp_InsertCoronaTestAnswer'
+    AND ROUTINE_TYPE = N'PROCEDURE'
+)
+DROP PROCEDURE dbo.stp_InsertCoronaTestAnswer
+GO
+-- Create the stored procedure in the specified schema
+CREATE PROCEDURE dbo.stp_InsertCoronaTestAnswer
+    DECLARE @TestFileName AS VARCHAR = 'Testsvar44.jpg';
+    DECLARE @UnordID AS INT = 4;
+    DECLARE @TestDate AS DATE = '2021-04-10';
+    DECLARE @TestTime AS TIME = '13:10';
+AS
+BEGIN
+    
+
+    INSERT UnordCoronaTest (TestFileName, TestTimeStamp, FK_UnordID, TestConsent, TestDate, TestTime)
+    VALUES (@TestFileName, GETDATE(), @UnordID, 1, @TestDate, @TestTime);       
+END
+GO
+-- example to execute the stored procedure we just created
+EXECUTE dbo.stp_InsertCoronaTestAnswer 1 /*value_for_param1*/, 2 /*value_for_param2*/
+GO
+
+
 ------------------------------------------------------------------------
     
     -- Create a new stored procedure called 'stp_GetAllCoronaTestAnswers' in schema 'dbo'
