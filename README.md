@@ -1,5 +1,5 @@
 # Databaser
 
-## test om det virker
+## SQL til eksamensprojekt
 
-## mon det her så virker??
+## DB tabeller og ER diagram til eksamensprojekt
